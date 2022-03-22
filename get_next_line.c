@@ -13,6 +13,19 @@ size_t newline(char *str)
     return (0);
 }
 
+char *ft_check(char *str)
+{
+    int i;
+    
+    i = 0;
+    while (str[i] && str[i] != '\n')
+    {
+    return(str);
+        i++;
+    }
+    return ("test");
+}
+
 char    *ft_read(int fd)
 {
     char    *buff;
@@ -37,16 +50,15 @@ char    *ft_read(int fd)
             return (0);
         }
         buff[nb] = 0;
-        printf("%d %s\n", nb, buff);
         line = ft_strjoin(line, buff);
+        //int a = 0;
         if (newline(buff) == 1)
         {
             free(buff);
-            return(line);
+            return (line);
         }
     }
 }
-
 
 int main ()
 {
@@ -54,14 +66,12 @@ int main ()
     char *buffer;
     //int nbyte = 6;
     //int i = 0;
-    
-    fd = open("get_next_line.c", O_RDONLY);
-    
-    
+    fd = open("test", O_RDONLY);
     buffer = ft_read(fd);
-    printf("printf : %s\n", buffer);
-     buffer = ft_read(fd);
-    printf("\n\n%s", buffer);
+    printf("%s", buffer);
+    
+    char *str = "oussama\nzahidwalo";
+    printf("%s", ft_check(str));
     
     
 }
