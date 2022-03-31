@@ -1,14 +1,19 @@
 #include "get_next_line.h"
 
-size_t newline(char *str)
-{   
-    while (*str)
+int newline(char *str)
+{ 
+    int i;
+    i = 0;
+    
+    if (!str)
+        str = ft_strdup("");
+    while (str[i])
     {
-        if (*str == '\n')
+        if (str[i] == '\n')
         {
             return(1);
         }
-        str++;
+        i++;
     }
     return (0);
 }
@@ -16,62 +21,112 @@ size_t newline(char *str)
 char *ft_check(char *str)
 {
     int i;
+    char *dst;
     
+    i = 0;
+    if (!str[i])
+        return (0);
+        
+    while (str[i] && str[i] != '\n')
+        i++;
+    if (str[i] == '\n')
+        i++;
+    dst = malloc(sizeof(char) * i + 1);
+    if (!dst)
+        return (0);
     i = 0;
     while (str[i] && str[i] != '\n')
     {
-    return(str);
+        dst[i] = str[i];
         i++;
     }
-    return ("test");
+    
+    if (str[i] == '\n')
+    {
+        dst[i] = str[i];
+        i++;
+    }
+    dst[i] = '\0';
+    return (dst);   
 }
 
-char    *ft_read(int fd)
+char *ft_rest(char *str)
 {
-    char    *buff;
+    char *rest;
+    int i;
+    int a;
+    
+    i = 0;
+    a = 0;
+    if (!str)
+        return (0);
+    while (str[i] && str[i] != '\n')
+        i++;
+    if (str[i] == '\n')
+        i++;
+    rest = malloc(sizeof(char) * ft_strlen(str) - i + 1);
+    if (!rest)
+        return (0);
+    while(str[i])
+    {
+        rest[a++] = str[i++];
+    }
+    rest[a] = '\0';
+    return (rest);
+}
+
+char    *ft_read(int fd, char *buffer)
+{
     char    *line;
     int     nb;
     
-    buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    line = 0;
-    if (buff == NULL)
+    nb = 1;
+    line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+    if (!line)
         return (0);
-    while (1)
+    while (!newline(buffer) && nb != 0)
     {
-        nb = read(fd, buff, BUFFER_SIZE);
+        nb = read(fd, line, BUFFER_SIZE);
         if (nb == 0)
         {
-            free(buff);
-            return (line);
+            free(line);
+            return (buffer);
         }
         if (nb == -1)
         {
-            free(buff);
+            free(line);
             return (0);
         }
-        buff[nb] = 0;
-        line = ft_strjoin(line, buff);
-        //int a = 0;
-        if (newline(buff) == 1)
-        {
-            free(buff);
-            return (line);
-        }
+        line[nb] = 0;
+        buffer = ft_strjoin(buffer, line);
     }
+    return(buffer);
+}
+
+char    *get_next_line(int fd)
+{
+    static char *buffer;
+    char        *line;
+    
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (0);
+    buffer = ft_read(fd, buffer);
+    if (!buffer)
+        return (0);
+    line = ft_check(buffer);
+    buffer = ft_rest(buffer);
+    return (line);
 }
 
 int main ()
 {
     int fd;
     char *buffer;
-    //int nbyte = 6;
-    //int i = 0;
     fd = open("test", O_RDONLY);
-    buffer = ft_read(fd);
-    printf("%s", buffer);
-    
-    char *str = "oussama\nzahidwalo";
-    printf("%s", ft_check(str));
-    
-    
+    buffer = get_next_line(fd);
+    while(buffer)
+    {
+        printf("%s",buffer);
+        buffer = get_next_line(fd);
+    }
 }

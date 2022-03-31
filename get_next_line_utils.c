@@ -6,27 +6,27 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 00:06:55 by ozahid-           #+#    #+#             */
-/*   Updated: 2022/03/22 03:57:17 by ozahid-          ###   ########.fr       */
+/*   Updated: 2022/03/31 21:50:56 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-size_t	ft_strlen(char *str)
+size_t ft_strlen(char *str)
 {
-    size_t i;
-    
-    i = 0;
-    if (str == 0)
-        return (0);
-    while (str[i] != '\0')
-        i++;
-    return (i);
+	size_t i;
+
+	i = 0;
+	if (str == 0)
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
-size_t	ft_strlcat(char *dst, char *src)
+size_t ft_strlcat(char *dst, char *src)
 {
-	size_t	i;
-	size_t	dlen;
+	size_t i;
+	size_t dlen;
 
 	if (src == 0)
 		return (0);
@@ -41,29 +41,35 @@ size_t	ft_strlcat(char *dst, char *src)
 	return (0);
 }
 
-void	ft_bzero(void *s, size_t n)
+char *ft_strdup(char *s)
 {
-	unsigned char	*str;
-	size_t			i;
+	char *dest;
+	int i;
+	size_t len;
 
-	str = (unsigned char *)s;
 	i = 0;
-	while (i < n)
+	len = ft_strlen(s);
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (s[i])
 	{
-		str[i] = 0;
+		dest[i] = s[i];
 		i++;
 	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 char *ft_strjoin(char *s1, char *s2)
 {
-    char *str;
-    
-    str = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-    if (str == NULL)
-        return (NULL);
-    ft_bzero(str, ft_strlen(str));
+	char *str;
+
+	str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	*str = '\0';
 	ft_strlcat(str, s1);
 	ft_strlcat(str, s2);
-    return (str);
+	return (str);
 }
