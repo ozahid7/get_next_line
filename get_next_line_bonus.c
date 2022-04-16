@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int newline(char *str)
 { 
@@ -107,18 +107,18 @@ char    *ft_read(int fd, char *buffer)
 
 char    *get_next_line(int fd)
 {
-    static char *buffer;
+    static char *buffer[1024];
     char        *line;
     
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (0);
-    buffer = ft_read(fd, buffer);
-    if (!buffer)
+    buffer[fd] = ft_read(fd, buffer[fd]);
+    if (!buffer[fd])
         return (0);
-    line = ft_check(buffer);
+    line = ft_check(buffer[fd]);
     if (line == 0)
         return (0);
-    buffer = ft_rest(buffer);
+    buffer[fd] = ft_rest(buffer[fd]);
     return (line);
 }
 
