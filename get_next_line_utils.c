@@ -6,14 +6,15 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 00:06:55 by ozahid-           #+#    #+#             */
-/*   Updated: 2022/04/16 02:21:46 by ozahid-          ###   ########.fr       */
+/*   Updated: 2022/04/18 19:58:54 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-size_t ft_strlen(char *str)
+
+size_t	ft_strlen(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (str == 0)
@@ -23,10 +24,10 @@ size_t ft_strlen(char *str)
 	return (i);
 }
 
-size_t ft_strlcat(char *dst, char *src)
+size_t	ft_strlcat(char *dst, char *src)
 {
-	size_t i;
-	size_t dlen;
+	size_t	i;
+	size_t	dlen;
 
 	if (src == 0)
 		return (0);
@@ -41,31 +42,11 @@ size_t ft_strlcat(char *dst, char *src)
 	return (0);
 }
 
-char *ft_strdup(char *s)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char *dest;
-	int i;
-	size_t len;
+	char	*str;
+	int		len;
 
-	i = 0;
-	len = ft_strlen(s);
-	dest = (char *)malloc(sizeof(char) * (len + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (s[i])
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char *ft_strjoin(char *s1, char *s2)
-{
-	char    *str;
-	int     len;
-	
 	len = 0;
 	if (s1)
 		len = ft_strlen(s1);
